@@ -1,0 +1,24 @@
+<div class="nav">
+    <ul class="navul">
+        <li><a href="index">首页</a></li>
+        <li><a href="__ROOT__\index\creat" target="_blank">创建投票</a></li>
+        <li><a href="__ROOT__\index\management" target="_blank">投票管理</a></li>
+        <li><a href="__ROOT__\index\square">热门投票</a></li>
+        <li><a href="__STATIC__\help.html" target="_blank">帮助中心</a></li>
+
+    </ul>
+
+    {switch name="username"}
+    {case value=""}   <button onclick="javascript:window.location.href='index/login'"> <a href="index\login">立即注册/登录</a></button>{/case}
+    {default /}
+    <div id="Drop" class="dropdown">
+        <button type="button"  id="userdrop" data-toggle="dropdown">
+            {$Request.session.username}<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" >
+            <li><a href="#" >我的消息</a></li>
+            <li><a href="__ROOT__\index\login\logout" >注销登陆</a></li>
+        </ul>
+    </div>
+    {/switch}
+</div>

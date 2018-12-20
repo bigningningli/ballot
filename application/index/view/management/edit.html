@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/creat.css">
+    <script src="__JS__/creat.js"></script>
+    <script src="__AJAX__/creat.js"></script>
+    <title>投票管理</title>
+</head>
+<body style="background: #f1f4ff">
+<!--头部引入-->
+{include file="include/header"}
+<!--/头部-->
+<div class="showhot">
+    <div style="margin-left: 1000px;">
+        <button class="btn btn-danger" onclick="javascript:window.location.href='__ROOT__/index/management/delete'">
+            删除投票
+        </button>
+    </div>
+    <div >
+        <p class="stitle">
+            新报名的成员
+        </p>
+
+        <hr style="background: #625eff;height: 3px;width: 150px;margin-left: 0px;margin-bottom: 50px;"/>
+        {if condition="$applynum != 0"}
+        <form action="__ROOT__\index\management\join" method="post" STYLE="margin-left: 500px;background: #c4dbff;width: 300px">
+            {foreach $applyarr as $apply}
+            <input type="checkbox" name="apply[]" value="{$apply}">{$apply}
+            &nbsp;
+            {if condition="$i++%6 eq 5"}
+            <br/> <br/>
+            {/if}
+            {/foreach}
+            <br/> <br/>
+            <input style="margin-left: 110px" class="btn btn-sm-info" type="submit" value="Join">
+        </form>
+        {/if}
+    </div>
+    <p class="stitle">
+        管理我创建的投票
+    </p>
+
+    <hr style="background: #625eff;height: 3px;width: 150px;margin-left: 0px;margin-bottom: 110px;"/>
+    <div style="margin-left: 50px;padding-left: 20px">
+        <div style="float: left">
+            <img src="__UPLOADDIR__\{$img}" width="200" height="150">
+           <form action="__ROOT__\index\management\editimage" enctype="multipart/form-data" method="post" >
+                <br/><input   type="file" name="image"  accept="image/*"><br/>
+                <input class="btn btn-sm-default" type="submit" value="修改缩略图像">
+          <br/><br/>
+           </form>
+        </div>
+        <div style="margin-left: 100px" class="col-sm-6 col-md-4">
+
+            <!--进度-->
+            {volist name="optionslist" id="options"}
+            <div style="float: left;">
+                {$options.name}:
+            </div>
+            {if condition="$options.participantnum >0"}
+            <div class="progress" style="width: 300px;margin-left: 20px;float: left">
+            <div class="progress-bar-{$style[$t++%4]}" role="progressbar" style="width: {$options.participantnum/$sum*100}%;">
+                   {$options.participantnum/$sum*100|round}%
+            </div>
+            </div>
+            {else /}
+            <div class="progress" style="width: 300px;margin-left: 20px;float: left">
+                <div class="progress-bar-{$style[$t++%4]}" role="progressbar" style="width:0%;">
+                    0%
+                </div>
+            </div>
+            {/if}
+            <div style="margin-left: 400px; width: 100px">
+                <a href="__ROOT__\index\management\showuser?id={$options.Id}" target="_blank">
+                    查看投票成员
+                </a>
+            </div>
+            <br/>  <br/>
+            {/volist}
+            <!--/-->
+        </div>
+    </div>
+    <div style="margin-top: 400px">
+    <p class="stitle">
+        其他参数调整
+    </p>
+
+    <hr style="background: #625eff;height: 3px;width: 150px;margin-left: 0px;margin-bottom: 30px;"/>
+           <form action="__ROOT__\index\management\uptime" method="post" STYLE="margin-left: 30px;background: #e7e7e7;width: 300px;float: left">
+            <h5 style="text-align: center">
+                时间调整
+            </h5>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        开始时间：
+                    </div>
+                    <input id="fstime" name="fstime" type="text" class="form-control" value="{$stime}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        结束时间：
+                    </div>
+                    <input id="fetime" name="fetime" type="text" class="form-control"  value="{$etime}">
+                </div>
+            </div>
+            <input type="submit" class="btn btn-info" value="修改" style="margin-left:220px;">
+        </form>
+        <form action="__ROOT__\index\management\upadditional" method="post" STYLE="margin-left: 630px;background: #e7e7e7;width: 300px">
+            <h5 style="text-align: center">
+                附加项调整
+            </h5>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        背景音乐URL：
+                    </div>
+                    <input id="murl" name="murl" value="{$murl}" onblur="musicurl('__ROOT__')" type="text" class="form-control" >
+                    <div class="input-group-addon">
+                        <span id="state" class="glyphicon glyphicon-refresh"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div style="font-size: 18px">
+                        参与方式：
+                    </div>
+                    <label class="radio-inline">
+                        {if condition="$enroll eq 1"}
+                        <input type="radio" name="enroll" value="1" checked="checked" >报名
+                        {else /}
+                        <input type="radio" name="enroll" value="1"  >报名
+                        {/if}
+                    </label>
+                    <label class="radio-inline">
+                        {if condition="$enroll eq 0"}
+                        <input type="radio" name="enroll" value="0" checked="checked" >非报名
+                        {else /}
+                        <input type="radio" name="enroll" value="0"  >非报名
+                        {/if}
+
+                    </label>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-info" value="修改" style="margin-left:220px;">
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

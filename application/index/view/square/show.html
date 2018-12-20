@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/creat.css">
+    <script src="__JS__/creat.js"></script>
+    <script src="__AJAX__/creat.js"></script>
+    <title>{$mlist["title"]}</title>
+</head>
+<body style="background: #f1f4ff">
+<audio autoplay="true" loop="true" volume="0.3" src="{$mlist['murl']}">
+</audio>
+<!--头部引入-->
+{include file="include/header"}
+<!--/头部-->
+<div class="showhot">
+    {if condition="$mlist['enroll']&&(!$a&&!$r)"}
+    <div style="margin-left: 1000px;">
+        <button class="btn btn-info" onclick="javascript:window.location.href='__ROOT__/index/Square/join'">
+           参与投票
+        </button>
+    </div>
+    {/if}
+
+    <p class="stitle">
+        投票详情
+    </p>
+
+    <hr style="background: #625eff;height: 3px;width: 150px;margin-left: 0px;margin-bottom: 110px;"/>
+    <div style="margin-left: 50px;padding-left: 20px">
+        <div style="float: left">
+            <img src="__UPLOADDIR__\{$mlist['images']}" width="200" height="150">
+       </div>
+        <div style="margin-left: 120px" class="col-sm-6 col-md-4">
+
+            <!--进度-->
+            {volist name="optionslist" id="options"}
+            <div style="float: left;">
+                {$options.name}:
+            </div>
+
+            <div class="progress" style="width: 300px;margin-left: 20px;float: left">
+                {if condition="$options.participantnum != 0"}
+                <div class="progress-bar-{$style[$t++%4]}" role="progressbar" style="width: {$options.participantnum/$sum*100}%;">
+                    {$options.participantnum/$sum*100|round}%
+                </div>
+                {else /}
+                <div class="progress-bar-{$style[$t++%4]}" role="progressbar" style="width: 0%;">
+                    0%
+                </div>
+                {/if}
+            </div>
+            {if condition="($r==1||$mlist['enroll']==0)&&$f==0"}
+            <div style="margin-left: 400px; width: 100px">
+               <button class="btn btn-{$style[($t-1)%4]}" onclick="javascript:window.location.href='__ROOT__/index/square/poll?id={$options.Id}'">
+                   投票
+               </button>
+            </div>
+            {/if}
+            <br/>  <br/>
+            {/volist}
+            <!--/-->
+        </div>
+    </div>
+    <div style="margin-top: 400px">
+        <p class="stitle">
+            内容介绍
+        </p>
+        <hr style="background: #625eff;height: 3px;width: 150px;margin-left: 0px;margin-bottom: 30px;"/>
+        {$mlist["content"]}
+    </div>
+</div>
+</body>
+</html>
